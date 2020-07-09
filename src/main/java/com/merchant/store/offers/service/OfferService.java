@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public interface OfferService {
 
-    UUID createOffer(OfferCreateRequestDto offercCreateDto);
+    UUID createOffer(OfferCreateRequestDto offerCreateDto);
 
-    void upateOffer(OfferUpdateRequestDto offerUpdateDto);
+    void updateOffer(OfferUpdateRequestDto offerUpdateDto);
 
     OfferCreateRequestDto getOfferById(long id);
 

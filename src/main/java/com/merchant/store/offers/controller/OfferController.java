@@ -34,7 +34,7 @@ public class OfferController {
 
     @PutMapping("/offers/{offerId}")
     public ResponseEntity<HttpStatus> updateOfferById(@Valid @RequestBody OfferUpdateRequestDto offerUpdateDto) {
-        offerService.upateOffer(offerUpdateDto);
+        offerService.updateOffer(offerUpdateDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

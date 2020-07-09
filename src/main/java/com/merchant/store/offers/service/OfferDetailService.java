@@ -8,7 +8,7 @@ public interface OfferDetailService {
 
     OfferDetailResponseDto addOfferDetail(String offerId, OffersDetailCreateRequestDto offersDetailCreateDto);
 
-    void upateOfferDetail(OffersDetailUpdateRequestDto offersDetailUpdateRequestDto);
+    void updateOfferDetail(OffersDetailUpdateRequestDto offersDetailUpdateRequestDto);
 
     OfferDetailResponseDto getOfferDetail(String offerId, String offerDetailId);
 

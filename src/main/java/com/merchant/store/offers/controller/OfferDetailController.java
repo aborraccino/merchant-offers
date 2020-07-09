@@ -29,7 +29,7 @@ public class OfferDetailController {
     public ResponseEntity<HttpStatus> updateDetail(@PathVariable("offerId") String offerId,
                                                    @Valid @RequestBody
                                                            OffersDetailUpdateRequestDto offersDetailUpdateRequestDto) {
-        offerDetailService.upateOfferDetail(offersDetailUpdateRequestDto);
+        offerDetailService.updateOfferDetail(offersDetailUpdateRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

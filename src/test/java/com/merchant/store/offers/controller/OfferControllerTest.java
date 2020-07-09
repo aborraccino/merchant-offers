@@ -47,7 +47,7 @@ public class OfferControllerTest {
     @DisplayName("When offer exists, then return the offer (200)")
     public void testGetOfferWhenItExists() throws Exception {
         // given
-        long offerId = 1l;
+        long offerId = 1L;
         OfferCreateRequestDto offerCreateDto = givenDummyValidOfferDto();
         given(offerService.getOfferById(any(Long.class))).willReturn(offerCreateDto);
 
@@ -66,7 +66,7 @@ public class OfferControllerTest {
     @DisplayName("When offer exists with correlated detail, then return the offer with its child (200)")
     public void testGetOfferWhenItExistsWithDetail() throws Exception {
         // given
-        long offerId = 1l;
+        long offerId = 1L;
         OfferCreateRequestDto offerCreateDto = givenDummyValidOfferDto();
         offerCreateDto.setOffersDetail(List.of(new OffersDetailCreateRequestDto("code", "description", 5)));
         given(offerService.getOfferById(any(Long.class))).willReturn(offerCreateDto);
@@ -151,8 +151,8 @@ public class OfferControllerTest {
     public void testUpdateOffer() throws Exception {
         // given
         OfferUpdateRequestDto offerDto = new OfferUpdateRequestDto().setDescription("new description");
-        long offerToUpdate = 1l;
-        doNothing().when(offerService).upateOffer(any(OfferUpdateRequestDto.class));
+        long offerToUpdate = 1L;
+        doNothing().when(offerService).updateOffer(any(OfferUpdateRequestDto.class));
 
         // when-then
         mockMvc.perform(put(buildUrlWithIdVariable(OFFERS_PATH), offerToUpdate)
@@ -165,7 +165,7 @@ public class OfferControllerTest {
     @DisplayName("When offer is expired, then delete the offer")
     public void testExpireOffer() throws Exception {
         // given
-        long offerToDeleteId = 1l;
+        long offerToDeleteId = 1L;
         doNothing().when(offerService).expireOfferById(offerToDeleteId);
 
         // when-then

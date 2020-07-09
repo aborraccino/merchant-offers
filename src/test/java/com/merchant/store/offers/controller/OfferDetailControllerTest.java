@@ -81,7 +81,7 @@ public class OfferDetailControllerTest {
         // given
         UUID offerId = UUID.randomUUID();
         OffersDetailUpdateRequestDto offersDetailUpdateRequestDto = givenDummyOfferDetailCreateRequest();
-        doNothing().when(offerDetailService).upateOfferDetail(any(OffersDetailUpdateRequestDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(any(OffersDetailUpdateRequestDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", offerId)
@@ -96,7 +96,7 @@ public class OfferDetailControllerTest {
         // given
         UUID offerId = UUID.randomUUID();
         OffersDetailUpdateRequestDto offersDetailUpdateRequestDto = givenDummyInvalidOfferDetailCreateRequest();
-        doNothing().when(offerDetailService).upateOfferDetail(any(OffersDetailUpdateRequestDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(any(OffersDetailUpdateRequestDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", offerId)
