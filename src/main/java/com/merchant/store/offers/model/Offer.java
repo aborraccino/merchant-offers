@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -34,66 +36,86 @@ public class Offer {
     @Column(name = "CURRENCY", nullable=false)
     private CurrencyEnum currency;
 
-    @Column(name = "EXPIRATION")
-    private Integer expirationDelay;
+    @Column(name = "OFFER_START_DATE", nullable=false)
+    private LocalDateTime offerStartDate;
+
+    @Column(name = "OFFER_EXPIRE_DATE")
+    private LocalDateTime offerExpireDate;
 
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OffersDetail> offersDetailList;
+    private List<OffersDetail> offersDetailList = new ArrayList<>();
+
 
     public UUID getOfferId() {
         return offerId;
     }
 
-    public void setOfferId(UUID offerId) {
+    public Offer setOfferId(UUID offerId) {
         this.offerId = offerId;
+        return this;
     }
 
     public String getOfferCode() {
         return offerCode;
     }
 
-    public void setOfferCode(String offerCode) {
+    public Offer setOfferCode(String offerCode) {
         this.offerCode = offerCode;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Offer setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public Offer setPrice(Double price) {
         this.price = price;
+        return this;
     }
 
     public CurrencyEnum getCurrency() {
         return currency;
     }
 
-    public void setCurrency(CurrencyEnum currency) {
+    public Offer setCurrency(CurrencyEnum currency) {
         this.currency = currency;
+        return this;
     }
 
-    public Integer getExpirationDelay() {
-        return expirationDelay;
+    public LocalDateTime getOfferStartDate() {
+        return offerStartDate;
     }
 
-    public void setExpirationDelay(Integer expirationDelay) {
-        this.expirationDelay = expirationDelay;
+    public Offer setOfferStartDate(LocalDateTime offerStartDate) {
+        this.offerStartDate = offerStartDate;
+        return this;
+    }
+
+    public LocalDateTime getOfferExpireDate() {
+        return offerExpireDate;
+    }
+
+    public Offer setOfferExpireDate(LocalDateTime offerExpireDate) {
+        this.offerExpireDate = offerExpireDate;
+        return this;
     }
 
     public List<OffersDetail> getOffersDetailList() {
         return offersDetailList;
     }
 
-    public void setOffersDetailList(List<OffersDetail> offersDetailList) {
+    public Offer setOffersDetailList(List<OffersDetail> offersDetailList) {
         this.offersDetailList = offersDetailList;
+        return this;
     }
 
     @Override
@@ -120,7 +142,8 @@ public class Offer {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", currency=" + currency +
-                ", expirationDelay=" + expirationDelay +
+                ", offerStartDate=" + offerStartDate +
+                ", offerExpireDate=" + offerExpireDate +
                 ", offersDetailList=" + offersDetailList +
                 '}';
     }

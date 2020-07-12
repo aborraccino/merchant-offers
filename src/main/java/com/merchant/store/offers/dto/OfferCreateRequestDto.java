@@ -1,11 +1,12 @@
 package com.merchant.store.offers.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OfferCreateRequestDto {
 
-    @NotNull
+    @NotBlank
     private String offerCode;
 
     private String description;
@@ -16,6 +17,7 @@ public class OfferCreateRequestDto {
     @NotNull
     private CurrencyEnumDto currency;
 
+    // in seconds
     private Integer expirationDelay;
 
     private List<OffersDetailCreateRequestDto> offersDetail;
@@ -72,5 +74,17 @@ public class OfferCreateRequestDto {
     public OfferCreateRequestDto setOffersDetail(List<OffersDetailCreateRequestDto> offersDetail) {
         this.offersDetail = offersDetail;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "OfferCreateRequestDto{" +
+                "offerCode='" + offerCode + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", expirationDelay=" + expirationDelay +
+                ", offersDetail=" + offersDetail +
+                '}';
     }
 }

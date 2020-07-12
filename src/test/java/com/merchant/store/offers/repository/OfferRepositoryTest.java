@@ -86,10 +86,23 @@ public class OfferRepositoryTest {
     }
 
     @Test
-    @DisplayName("When an offer is not valid because is missing price, then PersistenceException will be thrown")
+    @DisplayName("When an offer is not valid because is missing currency, then PersistenceException will be thrown")
     public void testValidationWhenIsMissingCurrency() {
         // given
         Offer invalidOffer = DummyFactory.givenDummyInvalidOfferValidWithoutCurrency();
+
+        // when
+        assertThrows(PersistenceException.class, () -> {
+            testEntityManager.persist(invalidOffer);
+            testEntityManager.flush();
+        });
+    }
+
+    @Test
+    @DisplayName("When an offer is not valid because is missing start date, then PersistenceException will be thrown")
+    public void testValidationWhenIsMissingStartDate() {
+        // given
+        Offer invalidOffer = DummyFactory.givenDummyInvalidOfferValidWithoutStartDate();
 
         // when
         assertThrows(PersistenceException.class, () -> {
