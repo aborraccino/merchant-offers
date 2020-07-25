@@ -1,10 +1,11 @@
 package com.merchant.store.offers.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class OfferCreateRequestDto {
+public class OfferDto {
 
     @NotBlank
     private String offerCode;
@@ -18,6 +19,7 @@ public class OfferCreateRequestDto {
     private CurrencyEnumDto currency;
 
     // in seconds
+    @Min(0)
     private Integer expirationDelay;
 
     private List<OffersDetailCreateRequestDto> offersDetail;
@@ -26,7 +28,7 @@ public class OfferCreateRequestDto {
         return offerCode;
     }
 
-    public OfferCreateRequestDto setOfferCode(String offerCode) {
+    public OfferDto setOfferCode(String offerCode) {
         this.offerCode = offerCode;
         return this;
     }
@@ -35,7 +37,7 @@ public class OfferCreateRequestDto {
         return description;
     }
 
-    public OfferCreateRequestDto setDescription(String description) {
+    public OfferDto setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -44,7 +46,7 @@ public class OfferCreateRequestDto {
         return price;
     }
 
-    public OfferCreateRequestDto setPrice(Double price) {
+    public OfferDto setPrice(Double price) {
         this.price = price;
         return this;
     }
@@ -53,7 +55,7 @@ public class OfferCreateRequestDto {
         return currency;
     }
 
-    public OfferCreateRequestDto setCurrency(CurrencyEnumDto currency) {
+    public OfferDto setCurrency(CurrencyEnumDto currency) {
         this.currency = currency;
         return this;
     }
@@ -62,7 +64,7 @@ public class OfferCreateRequestDto {
         return expirationDelay;
     }
 
-    public OfferCreateRequestDto setExpirationDelay(Integer expirationDelay) {
+    public OfferDto setExpirationDelay(Integer expirationDelay) {
         this.expirationDelay = expirationDelay;
         return this;
     }
@@ -71,7 +73,7 @@ public class OfferCreateRequestDto {
         return offersDetail;
     }
 
-    public OfferCreateRequestDto setOffersDetail(List<OffersDetailCreateRequestDto> offersDetail) {
+    public OfferDto setOffersDetail(List<OffersDetailCreateRequestDto> offersDetail) {
         this.offersDetail = offersDetail;
         return this;
     }

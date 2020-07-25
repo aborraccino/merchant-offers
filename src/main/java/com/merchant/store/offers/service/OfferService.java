@@ -1,17 +1,17 @@
 package com.merchant.store.offers.service;
 
-import com.merchant.store.offers.dto.OfferUpdateRequestDto;
-import com.merchant.store.offers.dto.OfferCreateRequestDto;
+import com.merchant.store.offers.dto.OfferDto;
+import com.merchant.store.offers.dto.OfferResponseDto;
 
 import java.util.UUID;
 
 public interface OfferService {
 
-    UUID createOffer(OfferCreateRequestDto offerCreateDto);
+    UUID createOffer(OfferDto offerCreateDto);
 
-    void updateOffer(OfferUpdateRequestDto offerUpdateDto);
+    OfferResponseDto updateOffer(OfferDto offerUpdateDto, String offerId);
 
-    OfferCreateRequestDto getOfferById(long id);
+    OfferResponseDto getOfferById(String offerId);
 
-    void expireOfferById(long offerId);
+    void expireOfferById(String offerId);
 }

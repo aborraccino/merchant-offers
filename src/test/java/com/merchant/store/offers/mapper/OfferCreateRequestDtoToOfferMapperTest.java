@@ -1,6 +1,6 @@
 package com.merchant.store.offers.mapper;
 
-import com.merchant.store.offers.dto.OfferCreateRequestDto;
+import com.merchant.store.offers.dto.OfferDto;
 import com.merchant.store.offers.model.Offer;
 import com.merchant.store.offers.repository.DummyFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ public class OfferCreateRequestDtoToOfferMapperTest {
     private static final LocalDateTime dummyLocalDateTime = LocalDateTime.of(2020, Month.JULY, 12, 10, 0, 0);
 
     @InjectMocks
-    OfferCreateRequestDtoToOfferMapper mapper = new OfferCreateRequestDtoToOfferMapper(() -> dummyLocalDateTime);
+    OfferDtoToOfferMapper mapper = new OfferDtoToOfferMapper(() -> dummyLocalDateTime);
 
     @Test
     @DisplayName("When input is not valid, the return empty Optional")
@@ -40,7 +40,7 @@ public class OfferCreateRequestDtoToOfferMapperTest {
     @DisplayName("When input has no details nor expiration")
     public void testMapNoExpirationNorDetails(){
         // given
-        OfferCreateRequestDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoNoExpirationNorDetails();
+        OfferDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoNoExpirationNorDetails();
 
         // when
         final Optional<Offer> offer = mapper.map(offerCreateRequestDto);
@@ -60,7 +60,7 @@ public class OfferCreateRequestDtoToOfferMapperTest {
     @DisplayName("When input has no details but has expiration")
     public void testMapWithExpirationWithoutDetails(){
         // given
-        OfferCreateRequestDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoWithExpirationWithoutDetails();
+        OfferDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoWithExpirationWithoutDetails();
 
         // when
         final Optional<Offer> offer = mapper.map(offerCreateRequestDto);
@@ -80,7 +80,7 @@ public class OfferCreateRequestDtoToOfferMapperTest {
     @DisplayName("When input has expiration and one detail")
     public void testMapWithoutExpirationWithOneDetail(){
         // given
-        OfferCreateRequestDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoWithOneDetail();
+        OfferDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoWithOneDetail();
 
         // when
         final Optional<Offer> offer = mapper.map(offerCreateRequestDto);

@@ -1,7 +1,8 @@
 package com.merchant.store.offers.repository;
 
 import com.merchant.store.offers.dto.CurrencyEnumDto;
-import com.merchant.store.offers.dto.OfferCreateRequestDto;
+import com.merchant.store.offers.dto.OfferDto;
+import com.merchant.store.offers.dto.OfferResponseDto;
 import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
 import com.merchant.store.offers.model.CurrencyEnum;
 import com.merchant.store.offers.model.Offer;
@@ -10,6 +11,7 @@ import com.merchant.store.offers.model.OffersDetail;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public final class DummyFactory {
 
@@ -77,6 +79,28 @@ public final class DummyFactory {
         return offer;
     }
 
+    public static Offer givenDummyValidOfferNoExpirationNorDetails() {
+        Offer offer = new Offer();
+        offer.setCurrency(CurrencyEnum.USD);
+        offer.setDescription("a special offer!");
+        offer.setOfferCode("12345");
+        offer.setPrice(10.5);
+        offer.setOfferStartDate(LocalDateTime.now());
+        return offer;
+    }
+
+    public static Offer givenDummyValidOfferWithExpirationWithoutDetails(LocalDateTime startDate, LocalDateTime expireDate) {
+        Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
+        offer.setCurrency(CurrencyEnum.EUR);
+        offer.setDescription("offer description");
+        offer.setOfferCode("offer code");
+        offer.setPrice(100.5);
+        offer.setOfferStartDate(startDate);
+        offer.setOfferExpireDate(expireDate);
+        return offer;
+    }
+
     public static OffersDetail givenDummyOfferDetail(Offer dummyOffer) {
         OffersDetail offersDetail = new OffersDetail();
         offersDetail.setOffer(dummyOffer);
@@ -112,8 +136,8 @@ public final class DummyFactory {
         return offersDetail;
     }
 
-    public static OfferCreateRequestDto givenDummyValidOfferDtoNoDetails() {
-        OfferCreateRequestDto offerCreateRequestDto = new OfferCreateRequestDto();
+    public static OfferDto givenDummyValidOfferDtoNoDetails() {
+        OfferDto offerCreateRequestDto = new OfferDto();
         offerCreateRequestDto.setCurrency(CurrencyEnumDto.EUR);
         offerCreateRequestDto.setExpirationDelay(60);
         offerCreateRequestDto.setDescription("offer description");
@@ -122,8 +146,8 @@ public final class DummyFactory {
         return offerCreateRequestDto;
     }
 
-    public static OfferCreateRequestDto givenDummyValidOfferDtoNoExpirationNorDetails() {
-        OfferCreateRequestDto offerCreateRequestDto = new OfferCreateRequestDto();
+    public static OfferDto givenDummyValidOfferDtoNoExpirationNorDetails() {
+        OfferDto offerCreateRequestDto = new OfferDto();
         offerCreateRequestDto.setCurrency(CurrencyEnumDto.EUR);
         offerCreateRequestDto.setDescription("offer description");
         offerCreateRequestDto.setOfferCode("offer code");
@@ -131,24 +155,46 @@ public final class DummyFactory {
         return offerCreateRequestDto;
     }
 
-    public static OfferCreateRequestDto givenDummyValidOfferDtoWithOneDetail() {
+    public static OfferDto givenDummyValidOfferDtoWithOneDetail() {
         OffersDetailCreateRequestDto dummyOffersDetailCreateRequestDto = new OffersDetailCreateRequestDto();
         dummyOffersDetailCreateRequestDto.setOfferDetailCode("detail code");
         dummyOffersDetailCreateRequestDto.setOfferDetailDescription("description");
         dummyOffersDetailCreateRequestDto.setQuantity(1);
-        OfferCreateRequestDto offerCreateRequestDto = givenDummyValidOfferDtoNoDetails();
+        OfferDto offerCreateRequestDto = givenDummyValidOfferDtoNoDetails();
         offerCreateRequestDto.setOffersDetail(List.of(dummyOffersDetailCreateRequestDto));
 
         return offerCreateRequestDto;
     }
 
-    public static OfferCreateRequestDto givenDummyValidOfferDtoWithExpirationWithoutDetails() {
-        OfferCreateRequestDto offerCreateRequestDto = new OfferCreateRequestDto();
+    public static OfferDto givenDummyValidOfferDtoWithExpirationWithoutDetails() {
+        OfferDto offerCreateRequestDto = new OfferDto();
         offerCreateRequestDto.setCurrency(CurrencyEnumDto.EUR);
         offerCreateRequestDto.setDescription("offer description");
         offerCreateRequestDto.setOfferCode("offer code");
         offerCreateRequestDto.setPrice(100.5);
         offerCreateRequestDto.setExpirationDelay(10);
         return offerCreateRequestDto;
+    }
+
+    public static OfferResponseDto givenDummyValidOfferResponseDtoNoDetails(LocalDateTime startDate) {
+        OfferResponseDto offerResponseDto = new OfferResponseDto(UUID.randomUUID());
+        offerResponseDto.setCurrency(CurrencyEnumDto.EUR);
+        offerResponseDto.setExpired(false);
+        offerResponseDto.setOfferStartDate(startDate);
+        offerResponseDto.setDescription("offer description");
+        offerResponseDto.setOfferCode("offer code");
+        offerResponseDto.setPrice(100.5);
+        return offerResponseDto;
+    }
+
+    public static OfferResponseDto givenDummyValidOfferResponseDto(LocalDateTime startDate) {
+        OffersDetailCreateRequestDto dummyOffersDetailCreateRequestDto = new OffersDetailCreateRequestDto();
+        dummyOffersDetailCreateRequestDto.setOfferDetailCode("detail code");
+        dummyOffersDetailCreateRequestDto.setOfferDetailDescription("description");
+        dummyOffersDetailCreateRequestDto.setQuantity(1);
+        OfferResponseDto offerResponseDto = givenDummyValidOfferResponseDtoNoDetails(startDate);
+        offerResponseDto.setOffersDetail(List.of(dummyOffersDetailCreateRequestDto));
+
+        return offerResponseDto;
     }
 }

@@ -5,7 +5,8 @@ public enum ErrorCodesEnum {
     GENERIC_ERROR("99", "Generic Internal Error"),
     NOT_FOUND_ERROR("01", "Resource Not Found"),
     DUPLICATED_ERROR("02", "Already Exists"),
-    MODEL_MAPPING_EXCEPTION("03", "Model Mapping Error");
+    MODEL_MAPPING_EXCEPTION("03", "Model Mapping Error"),
+    OFFER_EXPIRED("04", "Offer is expired");
 
     String code;
     String defaultMessage;

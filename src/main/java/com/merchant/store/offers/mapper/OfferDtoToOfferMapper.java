@@ -1,6 +1,6 @@
 package com.merchant.store.offers.mapper;
 
-import com.merchant.store.offers.dto.OfferCreateRequestDto;
+import com.merchant.store.offers.dto.OfferDto;
 import com.merchant.store.offers.model.CurrencyEnum;
 import com.merchant.store.offers.model.Offer;
 import com.merchant.store.offers.model.OffersDetail;
@@ -18,19 +18,19 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Component
-public class OfferCreateRequestDtoToOfferMapper implements DtoToModelMapper<OfferCreateRequestDto, Offer> {
+public class OfferDtoToOfferMapper implements DtoToModelMapper<OfferDto, Offer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OfferCreateRequestDtoToOfferMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OfferDtoToOfferMapper.class);
 
     private Supplier<LocalDateTime> offerClock;
 
     @Autowired
-    public OfferCreateRequestDtoToOfferMapper(Supplier<LocalDateTime> offerClock) {
+    public OfferDtoToOfferMapper(Supplier<LocalDateTime> offerClock) {
         this.offerClock = offerClock;
     }
 
     @Override
-    public Optional<Offer> map(OfferCreateRequestDto offerCreateRequestDto) {
+    public Optional<Offer> map(OfferDto offerCreateRequestDto) {
 
         if(Objects.isNull(offerCreateRequestDto)){
             LOGGER.warn("offerCreateRequestDto is null!");

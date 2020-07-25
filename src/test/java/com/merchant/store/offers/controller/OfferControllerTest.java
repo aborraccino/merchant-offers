@@ -2,9 +2,10 @@ package com.merchant.store.offers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merchant.store.offers.dto.CurrencyEnumDto;
-import com.merchant.store.offers.dto.OfferUpdateRequestDto;
-import com.merchant.store.offers.dto.OfferCreateRequestDto;
+import com.merchant.store.offers.dto.OfferDto;
+import com.merchant.store.offers.dto.OfferResponseDto;
 import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
+import com.merchant.store.offers.repository.DummyFactory;
 import com.merchant.store.offers.service.OfferService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,9 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,55 +44,65 @@ public class OfferControllerTest {
 
     private static final String OFFERS_PATH = "/merchant/store/v1/api/offers";
 
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     @Test
     @DisplayName("When offer exists, then return the offer (200)")
     public void testGetOfferWhenItExists() throws Exception {
         // given
         long offerId = 1L;
-        OfferCreateRequestDto offerCreateDto = givenDummyValidOfferDto();
-        given(offerService.getOfferById(any(Long.class))).willReturn(offerCreateDto);
+        OfferResponseDto offerResponseDto = DummyFactory.givenDummyValidOfferResponseDtoNoDetails(LocalDateTime.now());
+        given(offerService.getOfferById(any(String.class))).willReturn(offerResponseDto);
 
         // when-then
         mockMvc.perform(get(buildUrlWithIdVariable(OFFERS_PATH), offerId)
                                 .contentType(APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.offerCode", is(offerCreateDto.getOfferCode())))
-                .andExpect(jsonPath("$.description", is(offerCreateDto.getDescription())))
-                .andExpect(jsonPath("$.price", is(offerCreateDto.getPrice())))
-                .andExpect(jsonPath("$.currency", is(String.valueOf(offerCreateDto.getCurrency()))))
-                .andExpect(jsonPath("$.expirationDelay", is(offerCreateDto.getExpirationDelay())));
+                .andExpect(jsonPath("$.offerId", is(offerResponseDto.getOfferId().toString())))
+                .andExpect(jsonPath("$.offerCode", is(offerResponseDto.getOfferCode())))
+                .andExpect(jsonPath("$.description", is(offerResponseDto.getDescription())))
+                .andExpect(jsonPath("$.price", is(offerResponseDto.getPrice())))
+                .andExpect(jsonPath("$.currency", is(String.valueOf(offerResponseDto.getCurrency()))))
+                .andExpect(jsonPath("$.expired", is(offerResponseDto.isExpired())))
+                .andExpect(jsonPath("$.offerStartDate", is(offerResponseDto.getOfferStartDate().format(
+                        DateTimeFormatter.ofPattern(DATE_FORMAT)))))
+                .andExpect(jsonPath("$.offerExpireDate").doesNotExist())
+                .andExpect(jsonPath("$.offersDetail").doesNotExist());
     }
 
     @Test
     @DisplayName("When offer exists with correlated detail, then return the offer with its child (200)")
     public void testGetOfferWhenItExistsWithDetail() throws Exception {
         // given
-        long offerId = 1L;
-        OfferCreateRequestDto offerCreateDto = givenDummyValidOfferDto();
-        offerCreateDto.setOffersDetail(List.of(new OffersDetailCreateRequestDto("code", "description", 5)));
-        given(offerService.getOfferById(any(Long.class))).willReturn(offerCreateDto);
+        OfferResponseDto offerResponseDto = DummyFactory.givenDummyValidOfferResponseDto(LocalDateTime.now());
+        offerResponseDto.setOffersDetail(List.of(new OffersDetailCreateRequestDto("code", "description", 5)));
+        given(offerService.getOfferById(any(String.class))).willReturn(offerResponseDto);
 
         // when-then
-        mockMvc.perform(get(buildUrlWithIdVariable(OFFERS_PATH), offerId)
+        mockMvc.perform(get(buildUrlWithIdVariable(OFFERS_PATH), offerResponseDto.getOfferId())
                                 .contentType(APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.offerCode", is(offerCreateDto.getOfferCode())))
-                .andExpect(jsonPath("$.description", is(offerCreateDto.getDescription())))
-                .andExpect(jsonPath("$.price", is(offerCreateDto.getPrice())))
-                .andExpect(jsonPath("$.currency", is(String.valueOf(offerCreateDto.getCurrency()))))
-                .andExpect(jsonPath("$.expirationDelay", is(offerCreateDto.getExpirationDelay())))
-                .andExpect(jsonPath("$.offersDetail[0].offerDetailCode", is(offerCreateDto.getOffersDetail().get(0).getOfferDetailCode())))
-                .andExpect(jsonPath("$.offersDetail[0].offerDetailDescription", is(offerCreateDto.getOffersDetail().get(0).getOfferDetailDescription())))
-                .andExpect(jsonPath("$.offersDetail[0].quantity", is(offerCreateDto.getOffersDetail().get(0).getQuantity())));
+                .andExpect(jsonPath("$.offerId", is(offerResponseDto.getOfferId().toString())))
+                .andExpect(jsonPath("$.offerCode", is(offerResponseDto.getOfferCode())))
+                .andExpect(jsonPath("$.description", is(offerResponseDto.getDescription())))
+                .andExpect(jsonPath("$.price", is(offerResponseDto.getPrice())))
+                .andExpect(jsonPath("$.currency", is(String.valueOf(offerResponseDto.getCurrency()))))
+                .andExpect(jsonPath("$.expired", is(offerResponseDto.isExpired())))
+                .andExpect(jsonPath("$.offerStartDate", is(offerResponseDto.getOfferStartDate().format(
+                        DateTimeFormatter.ofPattern(DATE_FORMAT)))))
+                .andExpect(jsonPath("$.offerExpireDate").doesNotExist())
+                .andExpect(jsonPath("$.offersDetail[0].offerDetailCode", is(offerResponseDto.getOffersDetail().get(0).getOfferDetailCode())))
+                .andExpect(jsonPath("$.offersDetail[0].offerDetailDescription", is(offerResponseDto.getOffersDetail().get(0).getOfferDetailDescription())))
+                .andExpect(jsonPath("$.offersDetail[0].quantity", is(offerResponseDto.getOffersDetail().get(0).getQuantity())));
     }
 
     @Test
     @DisplayName("When offer is valid, then create an offer and return a successful response (201)")
     public void testCreateOfferWhenItIsValid() throws Exception {
         // given
-        OfferCreateRequestDto offerDto = givenDummyValidOfferDto();
+        OfferDto offerDto = givenDummyValidOfferDto();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferCreateRequestDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -105,9 +116,9 @@ public class OfferControllerTest {
     @DisplayName("When is missing code, then the offer creation fails and the api return an error code (400)")
     public void testCreateOfferWhenIsMissingOfferCode() throws Exception {
         // given
-        OfferCreateRequestDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCode();
+        OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCode();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferCreateRequestDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -120,9 +131,9 @@ public class OfferControllerTest {
     @DisplayName("When is missing offer price, then the offer creation fails and the api return an error code (400)")
     public void testCreateOfferWhenIsMissingPrice() throws Exception {
         // given
-        OfferCreateRequestDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutPrice();
+        OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutPrice();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferCreateRequestDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -135,9 +146,9 @@ public class OfferControllerTest {
     @DisplayName("When is missing offer currency, then the offer creation fails and the api return an error code (400)")
     public void testCreateOfferWhenIsMissingCurrency() throws Exception {
         // given
-        OfferCreateRequestDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCurrency();
+        OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCurrency();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferCreateRequestDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -150,9 +161,10 @@ public class OfferControllerTest {
     @DisplayName("When offer is updated, then and return (201)")
     public void testUpdateOffer() throws Exception {
         // given
-        OfferUpdateRequestDto offerDto = new OfferUpdateRequestDto().setDescription("new description");
-        long offerToUpdate = 1L;
-        doNothing().when(offerService).updateOffer(any(OfferUpdateRequestDto.class));
+        OfferDto offerDto = givenDummyValidOfferDto();
+        String offerToUpdate = "1234";
+        OfferResponseDto dummyResponseDto = new OfferResponseDto(UUID.randomUUID());
+        given(offerService.updateOffer(any(OfferDto.class), any(String.class))).willReturn(dummyResponseDto);
 
         // when-then
         mockMvc.perform(put(buildUrlWithIdVariable(OFFERS_PATH), offerToUpdate)
@@ -165,7 +177,7 @@ public class OfferControllerTest {
     @DisplayName("When offer is expired, then delete the offer")
     public void testExpireOffer() throws Exception {
         // given
-        long offerToDeleteId = 1L;
+        String offerToDeleteId = "12345";
         doNothing().when(offerService).expireOfferById(offerToDeleteId);
 
         // when-then
@@ -174,26 +186,26 @@ public class OfferControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private OfferCreateRequestDto givenDummyInvalidOfferDtoWithoutCurrency() {
-        return new OfferCreateRequestDto()
+    private OfferDto givenDummyInvalidOfferDtoWithoutCurrency() {
+        return new OfferDto()
                 .setOfferCode("myCode")
                 .setPrice(10d);
     }
 
-    private OfferCreateRequestDto givenDummyInvalidOfferDtoWithoutPrice() {
-        return new OfferCreateRequestDto()
+    private OfferDto givenDummyInvalidOfferDtoWithoutPrice() {
+        return new OfferDto()
                 .setOfferCode("myCode")
                 .setCurrency(CurrencyEnumDto.GBP);
     }
 
-    private OfferCreateRequestDto givenDummyInvalidOfferDtoWithoutCode() {
-        return new OfferCreateRequestDto()
+    private OfferDto givenDummyInvalidOfferDtoWithoutCode() {
+        return new OfferDto()
                 .setCurrency(CurrencyEnumDto.GBP)
                 .setPrice(10d);
     }
 
-    private OfferCreateRequestDto givenDummyValidOfferDto(){
-        return new OfferCreateRequestDto()
+    private OfferDto givenDummyValidOfferDto(){
+        return new OfferDto()
                 .setOfferCode("myCode")
                 .setCurrency(CurrencyEnumDto.GBP)
                 .setPrice(10d)

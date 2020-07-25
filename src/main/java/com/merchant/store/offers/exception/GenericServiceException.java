@@ -7,7 +7,6 @@ public class GenericServiceException extends RuntimeException {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private ErrorCodesEnum errorCode = ErrorCodesEnum.GENERIC_ERROR;
 
     public GenericServiceException() {
