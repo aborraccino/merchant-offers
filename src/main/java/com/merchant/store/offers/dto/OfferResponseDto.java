@@ -18,7 +18,7 @@ public class OfferResponseDto {
 
     private CurrencyEnumDto currency;
 
-    private List<OffersDetailCreateRequestDto> offersDetail;
+    private List<OffersDetailDto> offersDetail;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime offerStartDate;
@@ -77,11 +77,11 @@ public class OfferResponseDto {
         return this;
     }
 
-    public List<OffersDetailCreateRequestDto> getOffersDetail() {
+    public List<OffersDetailDto> getOffersDetail() {
         return offersDetail;
     }
 
-    public OfferResponseDto setOffersDetail(List<OffersDetailCreateRequestDto> offersDetail) {
+    public OfferResponseDto setOffersDetail(List<OffersDetailDto> offersDetail) {
         this.offersDetail = offersDetail;
         return this;
     }

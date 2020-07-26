@@ -19,10 +19,10 @@ public class OfferDto {
     private CurrencyEnumDto currency;
 
     // in seconds
-    @Min(0)
+    @Min(1)
     private Integer expirationDelay;
 
-    private List<OffersDetailCreateRequestDto> offersDetail;
+    private List<OffersDetailDto> offersDetail;
 
     public String getOfferCode() {
         return offerCode;
@@ -69,11 +69,11 @@ public class OfferDto {
         return this;
     }
 
-    public List<OffersDetailCreateRequestDto> getOffersDetail() {
+    public List<OffersDetailDto> getOffersDetail() {
         return offersDetail;
     }
 
-    public OfferDto setOffersDetail(List<OffersDetailCreateRequestDto> offersDetail) {
+    public OfferDto setOffersDetail(List<OffersDetailDto> offersDetail) {
         this.offersDetail = offersDetail;
         return this;
     }

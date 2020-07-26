@@ -2,12 +2,13 @@ package com.merchant.store.offers.mapper;
 
 import com.merchant.store.offers.dto.CurrencyEnumDto;
 import com.merchant.store.offers.dto.OfferResponseDto;
-import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
+import com.merchant.store.offers.dto.OffersDetailDto;
 import com.merchant.store.offers.model.Offer;
 import com.merchant.store.offers.model.OffersDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class OfferToOfferResponseDto implements ModelToDtoMapper<Offer, OfferResponseDto> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OfferToOfferResponseDto.class);
@@ -57,8 +59,8 @@ public class OfferToOfferResponseDto implements ModelToDtoMapper<Offer, OfferRes
         offerResponseDto.setOffersDetail(offersDetailStream
                                                  .filter(Objects::nonNull)
                                                  .map(offersDetail -> {
-                                                     OffersDetailCreateRequestDto offersDetailDto =
-                                                             new OffersDetailCreateRequestDto();
+                                                     OffersDetailDto offersDetailDto =
+                                                             new OffersDetailDto();
                                                      offersDetailDto.setOfferDetailDescription(
                                                              offersDetail.getOfferDetailDescription());
                                                      offersDetailDto.setOfferDetailCode(

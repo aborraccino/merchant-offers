@@ -6,8 +6,8 @@ public class DuplicateResourceException extends GenericServiceException {
 
 	private static final long serialVersionUID = 1L;
 
-	public DuplicateResourceException(String code) {
-		super("code=" + code);
+	public DuplicateResourceException(String message) {
+		super(message);
 		errorCode(ErrorCodesEnum.DUPLICATED_ERROR);
 	}
 }

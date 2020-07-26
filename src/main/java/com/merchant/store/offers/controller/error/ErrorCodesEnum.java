@@ -6,7 +6,9 @@ public enum ErrorCodesEnum {
     NOT_FOUND_ERROR("01", "Resource Not Found"),
     DUPLICATED_ERROR("02", "Already Exists"),
     MODEL_MAPPING_EXCEPTION("03", "Model Mapping Error"),
-    OFFER_EXPIRED("04", "Offer is expired");
+    OFFER_EXPIRED("04", "Offer is expired"),
+    CONSTRAINT_ERROR("05", "Constraint Violation"),
+    VALIDATION_ERROR("06", "Malformed Input Data");
 
     String code;
     String defaultMessage;

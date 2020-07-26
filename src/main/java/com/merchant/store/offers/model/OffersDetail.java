@@ -1,12 +1,6 @@
 package com.merchant.store.offers.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -90,11 +84,11 @@ public class OffersDetail {
     @Override
     public String toString() {
         return "OffersDetail{" +
-                "offerId=" + offerDetailId +
+                "offerDetailId=" + offerDetailId.toString() +
                 ", offerDetailCode='" + offerDetailCode + '\'' +
                 ", offerDetailDescription='" + offerDetailDescription + '\'' +
                 ", quantity=" + quantity +
-                ", offer=" + offer +
+                ", offerId=" + offer.getOfferId() +
                 '}';
     }
 }

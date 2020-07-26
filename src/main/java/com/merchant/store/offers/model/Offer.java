@@ -1,14 +1,6 @@
 package com.merchant.store.offers.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +37,12 @@ public class Offer {
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OffersDetail> offersDetailList = new ArrayList<>();
 
+    public Offer(UUID offerId) {
+        this.offerId = offerId;
+    }
+
+    public Offer() {
+    }
 
     public UUID getOfferId() {
         return offerId;
@@ -137,7 +135,7 @@ public class Offer {
     @Override
     public String toString() {
         return "Offer{" +
-                "offerId=" + offerId +
+                "offerId=" + offerId.toString() +
                 ", offerCode='" + offerCode + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +

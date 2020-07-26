@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merchant.store.offers.dto.CurrencyEnumDto;
 import com.merchant.store.offers.dto.OfferDto;
 import com.merchant.store.offers.dto.OfferResponseDto;
-import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
+import com.merchant.store.offers.dto.OffersDetailDto;
 import com.merchant.store.offers.repository.DummyFactory;
 import com.merchant.store.offers.service.OfferService;
 import org.junit.jupiter.api.DisplayName;
@@ -75,7 +75,7 @@ public class OfferControllerTest {
     public void testGetOfferWhenItExistsWithDetail() throws Exception {
         // given
         OfferResponseDto offerResponseDto = DummyFactory.givenDummyValidOfferResponseDto(LocalDateTime.now());
-        offerResponseDto.setOffersDetail(List.of(new OffersDetailCreateRequestDto("code", "description", 5)));
+        offerResponseDto.setOffersDetail(List.of(new OffersDetailDto("code", "description", 5)));
         given(offerService.getOfferById(any(String.class))).willReturn(offerResponseDto);
 
         // when-then
@@ -102,7 +102,7 @@ public class OfferControllerTest {
         // given
         OfferDto offerDto = givenDummyValidOfferDto();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(new OfferResponseDto(offerId));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -118,7 +118,7 @@ public class OfferControllerTest {
         // given
         OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCode();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(new OfferResponseDto(offerId));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -133,7 +133,7 @@ public class OfferControllerTest {
         // given
         OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutPrice();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(new OfferResponseDto(offerId));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)
@@ -148,7 +148,7 @@ public class OfferControllerTest {
         // given
         OfferDto invalidOfferDTO = givenDummyInvalidOfferDtoWithoutCurrency();
         UUID offerId = UUID.randomUUID();
-        given(offerService.createOffer(any(OfferDto.class))).willReturn(offerId);
+        given(offerService.createOffer(any(OfferDto.class))).willReturn(new OfferResponseDto(offerId));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH)

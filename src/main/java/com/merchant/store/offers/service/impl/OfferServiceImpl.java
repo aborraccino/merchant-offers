@@ -46,7 +46,7 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     @Transactional
-    public UUID createOffer(OfferDto offerCreateRequestDto) {
+    public OfferResponseDto createOffer(OfferDto offerCreateRequestDto) {
         LOGGER.info("createOffer(id={})", offerCreateRequestDto.getOfferCode());
 
         Optional<Offer> duplicatedOffer = offerRepository.findByOfferCode(offerCreateRequestDto.getOfferCode());
@@ -54,7 +54,7 @@ public class OfferServiceImpl implements OfferService {
         if (duplicatedOffer.isPresent()) {
             LOGGER.error("offer with code {} and id {} is already present", duplicatedOffer.get().getOfferCode()
             , duplicatedOffer.get().getOfferId());
-            throw new DuplicateResourceException(offerCreateRequestDto.getOfferCode());
+            throw new DuplicateResourceException("Offer is already present, code= " + offerCreateRequestDto.getOfferCode());
         }
 
         Offer offer =
@@ -64,7 +64,9 @@ public class OfferServiceImpl implements OfferService {
         final Offer offerCreated = offerRepository.save(offer);
 
         LOGGER.info("new offer created = {}", offerCreated);
-        return offerCreated.getOfferId();
+        return offerToOfferResponseDto.map(offerCreated).orElseThrow(
+                () -> new ModelMappingException("offerToOfferResponseDto was unable to convert the model")
+        );
     }
 
     @Override

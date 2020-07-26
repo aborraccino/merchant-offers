@@ -2,15 +2,18 @@ package com.merchant.store.offers.dto;
 
 import java.util.UUID;
 
-public class OfferDetailResponseDto extends OffersDetailCreateRequestDto {
+public class OfferDetailResponseDto {
 
     UUID offerDetailId;
 
-    UUID offerId;
+    private String offerDetailCode;
 
-    public OfferDetailResponseDto(UUID offerDetailId, UUID offerId) {
+    private String offerDetailDescription;
+
+    private Integer quantity;
+
+    public OfferDetailResponseDto(UUID offerDetailId) {
         this.offerDetailId = offerDetailId;
-        this.offerId = offerId;
     }
 
     public UUID getOfferDetailId() {
@@ -22,12 +25,30 @@ public class OfferDetailResponseDto extends OffersDetailCreateRequestDto {
         return this;
     }
 
-    public UUID getOfferId() {
-        return offerId;
+    public String getOfferDetailCode() {
+        return offerDetailCode;
     }
 
-    public OfferDetailResponseDto setOfferId(UUID offerId) {
-        this.offerId = offerId;
+    public OfferDetailResponseDto setOfferDetailCode(String offerDetailCode) {
+        this.offerDetailCode = offerDetailCode;
+        return this;
+    }
+
+    public String getOfferDetailDescription() {
+        return offerDetailDescription;
+    }
+
+    public OfferDetailResponseDto setOfferDetailDescription(String offerDetailDescription) {
+        this.offerDetailDescription = offerDetailDescription;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public OfferDetailResponseDto setQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 }

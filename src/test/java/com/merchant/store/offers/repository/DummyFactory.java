@@ -1,9 +1,6 @@
 package com.merchant.store.offers.repository;
 
-import com.merchant.store.offers.dto.CurrencyEnumDto;
-import com.merchant.store.offers.dto.OfferDto;
-import com.merchant.store.offers.dto.OfferResponseDto;
-import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
+import com.merchant.store.offers.dto.*;
 import com.merchant.store.offers.model.CurrencyEnum;
 import com.merchant.store.offers.model.Offer;
 import com.merchant.store.offers.model.OffersDetail;
@@ -156,7 +153,7 @@ public final class DummyFactory {
     }
 
     public static OfferDto givenDummyValidOfferDtoWithOneDetail() {
-        OffersDetailCreateRequestDto dummyOffersDetailCreateRequestDto = new OffersDetailCreateRequestDto();
+        OffersDetailDto dummyOffersDetailCreateRequestDto = new OffersDetailDto();
         dummyOffersDetailCreateRequestDto.setOfferDetailCode("detail code");
         dummyOffersDetailCreateRequestDto.setOfferDetailDescription("description");
         dummyOffersDetailCreateRequestDto.setQuantity(1);
@@ -188,7 +185,7 @@ public final class DummyFactory {
     }
 
     public static OfferResponseDto givenDummyValidOfferResponseDto(LocalDateTime startDate) {
-        OffersDetailCreateRequestDto dummyOffersDetailCreateRequestDto = new OffersDetailCreateRequestDto();
+        OffersDetailDto dummyOffersDetailCreateRequestDto = new OffersDetailDto();
         dummyOffersDetailCreateRequestDto.setOfferDetailCode("detail code");
         dummyOffersDetailCreateRequestDto.setOfferDetailDescription("description");
         dummyOffersDetailCreateRequestDto.setQuantity(1);
@@ -196,5 +193,40 @@ public final class DummyFactory {
         offerResponseDto.setOffersDetail(List.of(dummyOffersDetailCreateRequestDto));
 
         return offerResponseDto;
+    }
+
+    public static OffersDetailDto givenDummyOfferDetailDto() {
+        return new OffersDetailDto()
+                .setOfferDetailCode("offer detail code")
+                .setOfferDetailDescription("offer detail description")
+                .setQuantity(10);
+    }
+
+    public static OffersDetailDto givenDummyInvalidQuantityOfferDetailDto() {
+        return new OffersDetailDto()
+                .setOfferDetailCode("offer detail code")
+                .setOfferDetailDescription("offer detail description")
+                .setQuantity(0);
+    }
+
+    public static OffersDetailDto givenDummyInvalidCodeOfferDetailDto() {
+        return new OffersDetailDto()
+                .setOfferDetailCode(null)
+                .setOfferDetailDescription("offer detail description")
+                .setQuantity(10);
+    }
+
+    public static OffersDetailDto givenDummyInvalidDescriptionOfferDetailDto() {
+        return new OffersDetailDto()
+                .setOfferDetailCode("offer detail code")
+                .setOfferDetailDescription("")
+                .setQuantity(10);
+    }
+
+    public static OfferDetailResponseDto givenDummyOfferDetailResponseDto() {
+        return new OfferDetailResponseDto(UUID.randomUUID())
+                .setOfferDetailCode("offer detail code")
+                .setQuantity(10)
+                .setOfferDetailDescription("offer detail description");
     }
 }

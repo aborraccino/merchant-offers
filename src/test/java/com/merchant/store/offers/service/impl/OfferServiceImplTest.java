@@ -37,7 +37,7 @@ import static org.mockito.Mockito.verify;
 public class OfferServiceImplTest {
 
     private static final LocalDateTime dummyLocalDateTime = LocalDateTime.of(2020, Month.JULY, 15, 10, 0, 0);
-    private static final UUID OFFER_ID = UUID.randomUUID();
+    private static final UUID OFFER_ID = UUID.fromString("3db46740-71d3-4881-8a0e-7206f9e1c089");
 
     private Supplier<LocalDateTime> offerClock = () -> dummyLocalDateTime;
 

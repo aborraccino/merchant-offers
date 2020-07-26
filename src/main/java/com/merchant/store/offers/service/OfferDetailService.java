@@ -1,16 +1,15 @@
 package com.merchant.store.offers.service;
 
 import com.merchant.store.offers.dto.OfferDetailResponseDto;
-import com.merchant.store.offers.dto.OffersDetailCreateRequestDto;
-import com.merchant.store.offers.dto.OffersDetailUpdateRequestDto;
+import com.merchant.store.offers.dto.OffersDetailDto;
+
+import java.util.UUID;
 
 public interface OfferDetailService {
 
-    OfferDetailResponseDto addOfferDetail(String offerId, OffersDetailCreateRequestDto offersDetailCreateDto);
+    UUID addOfferDetail(OffersDetailDto offersDetailCreateDto);
 
-    void updateOfferDetail(OffersDetailUpdateRequestDto offersDetailUpdateRequestDto);
+    void updateOfferDetail(String offerDetailId, OffersDetailDto offersDetailUpdateRequestDto);
 
-    OfferDetailResponseDto getOfferDetail(String offerId, String offerDetailId);
-
-    void removeOfferDetail(String offerId, String offerDetailId);
+    OfferDetailResponseDto getOfferDetail(String offerDetailId);
 }

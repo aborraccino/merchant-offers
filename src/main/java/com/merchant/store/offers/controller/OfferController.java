@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/merchant/store/v1/api/")
@@ -20,8 +19,8 @@ public class OfferController {
 
     @PostMapping("/offers")
     public ResponseEntity<OfferResponseDto> createOffer(@Valid @RequestBody OfferDto offerDto) {
-        UUID offerId = offerService.createOffer(offerDto);
-        return new ResponseEntity<>(new OfferResponseDto(offerId), HttpStatus.CREATED);
+        OfferResponseDto offer = offerService.createOffer(offerDto);
+        return new ResponseEntity<>(offer, HttpStatus.CREATED);
     }
 
     @PutMapping("/offers/{offerId}")
@@ -38,7 +37,7 @@ public class OfferController {
     }
 
     @DeleteMapping("/offers/{offerId}")
-    public ResponseEntity<HttpStatus> expireOfferById(@PathVariable("id") String offerId) {
+    public ResponseEntity<HttpStatus> expireOfferById(@PathVariable("offerId") String offerId) {
         offerService.expireOfferById(offerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
