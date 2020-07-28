@@ -61,9 +61,11 @@ public class OfferServiceImplTest {
         OfferDto offerCreateRequestDto = DummyFactory.givenDummyValidOfferDtoNoDetails();
         Offer dummyOfferCreated = new Offer();
         dummyOfferCreated.setOfferId(OFFER_ID);
+        OfferResponseDto offerResponseDto = DummyFactory.givenDummyValidOfferResponseDto(dummyLocalDateTime);
         given(offerRepository.findByOfferCode(offerCreateRequestDto.getOfferCode())).willReturn(Optional.empty());
         given(offerRepository.save(any(Offer.class))).willReturn(dummyOfferCreated);
         given(offerDtoToOfferMapper.map(any(OfferDto.class))).willReturn(Optional.of(dummyOfferCreated));
+        given(offerToOfferResponseDto.map(any(Offer.class))).willReturn(Optional.of(offerResponseDto));
 
         // when
         offerService.createOffer(offerCreateRequestDto);
@@ -189,8 +191,7 @@ public class OfferServiceImplTest {
     @DisplayName("When expires an offer that exists, then the offer expires")
     public void testExpireOfferWhenOfferExists() {
         // given
-        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails();
-        dummyOffer.setOfferId(OFFER_ID);
+        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails(OFFER_ID);
         given(offerRepository.findById(dummyOffer.getOfferId())).willReturn(Optional.of(dummyOffer));
 
         // when

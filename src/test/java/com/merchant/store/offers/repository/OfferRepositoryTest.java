@@ -12,9 +12,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class OfferRepositoryTest {
@@ -29,7 +27,7 @@ public class OfferRepositoryTest {
     @DisplayName("When a valid offer is saved, then can be retrieved")
     public void testSaveValidOffer() {
         // given
-        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails();
+        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails(null);
         testEntityManager.persist(dummyOffer);
         testEntityManager.flush();
 
@@ -45,7 +43,7 @@ public class OfferRepositoryTest {
     @DisplayName("When a valid offer with one associated detail is saved, the can be retrieved")
     public void testSaveValidOfferWithOneDetail() {
         // given
-        Offer dummyOffer = DummyFactory.givenDummyOfferValidWithOneDetail();
+        Offer dummyOffer = DummyFactory.givenDummyOfferValidWithOneDetail(null, null);
         testEntityManager.persist(dummyOffer);
         testEntityManager.flush();
 

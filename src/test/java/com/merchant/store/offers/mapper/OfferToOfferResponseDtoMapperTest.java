@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -47,7 +48,7 @@ public class OfferToOfferResponseDtoMapperTest {
 
         // then
         assertTrue(offerResponseDto.isPresent());
-        assertNull(offerResponseDto.get().getOfferId());
+        assertNotNull(offerResponseDto.get().getOfferId());
         assertThat(offerResponseDto.get().getOffersDetail(), hasSize(0));
         assertEquals(offer.getOfferCode(), offerResponseDto.get().getOfferCode());
         assertEquals(offer.getDescription(), offerResponseDto.get().getDescription());
@@ -69,7 +70,7 @@ public class OfferToOfferResponseDtoMapperTest {
 
         // then
         assertTrue(offerResponseDto.isPresent());
-        assertNull(offerResponseDto.get().getOfferId());
+        assertNotNull(offerResponseDto.get().getOfferId());
         assertThat(offerResponseDto.get().getOffersDetail(), hasSize(0));
         assertEquals(offerResponseDto.get().getOfferCode(), offer.getOfferCode());
         assertEquals(offerResponseDto.get().getDescription(), offer.getDescription());
@@ -93,7 +94,7 @@ public class OfferToOfferResponseDtoMapperTest {
 
         // then
         assertTrue(offerResponseDto.isPresent());
-        assertNull(offerResponseDto.get().getOfferId());
+        assertNotNull(offerResponseDto.get().getOfferId());
         assertThat(offerResponseDto.get().getOffersDetail(), hasSize(0));
         assertEquals(offerResponseDto.get().getOfferCode(), offer.getOfferCode());
         assertEquals(offerResponseDto.get().getDescription(), offer.getDescription());
@@ -108,14 +109,14 @@ public class OfferToOfferResponseDtoMapperTest {
     @DisplayName("When the input has one detail")
     public void testMapWithOneDetail(){
         // given
-        Offer offer = DummyFactory.givenDummyOfferValidWithOneDetail();
+        Offer offer = DummyFactory.givenDummyOfferValidWithOneDetail(UUID.randomUUID(), UUID.randomUUID());
 
         // when
         final Optional<OfferResponseDto> offerResponseDto = mapper.map(offer);
 
         // then
         assertTrue(offerResponseDto.isPresent());
-        assertNull(offerResponseDto.get().getOfferId());
+        assertNotNull(offerResponseDto.get().getOfferId());
         assertEquals(offerResponseDto.get().getOfferCode(), offer.getOfferCode());
         assertEquals(offerResponseDto.get().getDescription(), offer.getDescription());
         assertEquals(offerResponseDto.get().getCurrency().name(), offer.getCurrency().name());

@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +45,7 @@ public class OfferDetailServiceAdapterImplTest {
         OfferResponseDto dummyOfferResponseDto = DummyFactory.givenDummyValidOfferResponseDtoNoDetails(null);
         OffersDetailDto offerDetailDto = DummyFactory.givenDummyOfferDetailDto();
         given(offerService.getOfferById(OFFER_ID.toString())).willReturn(dummyOfferResponseDto);
+        given(offerDetailService.addOfferDetail(any(OffersDetailDto.class))).willReturn(OFFER_DETAIL_ID);
 
         // when
         UUID addOfferDetailUuid = offerDetailServiceAdapter.addOfferDetail(OFFER_ID.toString(), offerDetailDto);
@@ -71,12 +73,13 @@ public class OfferDetailServiceAdapterImplTest {
         OfferResponseDto dummyOfferResponseDto = DummyFactory.givenDummyValidOfferResponseDtoNoDetails(null);
         OffersDetailDto offerDetailDto = DummyFactory.givenDummyOfferDetailDto();
         given(offerService.getOfferById(OFFER_ID.toString())).willReturn(dummyOfferResponseDto);
+        doNothing().when(offerDetailService).updateOfferDetail(anyString(), any(OffersDetailDto.class));
 
         // when
         offerDetailServiceAdapter.updateOfferDetail(OFFER_ID.toString(), OFFER_DETAIL_ID.toString(), offerDetailDto);
 
         // verify
-        verify(offerDetailService).updateOfferDetail(OFFER_DETAIL_ID.toString(), any(OffersDetailDto.class));
+        verify(offerDetailService).updateOfferDetail(anyString(), any(OffersDetailDto.class));
     }
 
     @Test

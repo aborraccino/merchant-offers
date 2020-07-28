@@ -11,9 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import javax.persistence.PersistenceException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class OfferDetailRepositoryTest {
@@ -28,10 +26,10 @@ public class OfferDetailRepositoryTest {
     @DisplayName("When a valid offer detail is saved and associated to a valid offer, then can be retrieved")
     public void testSaveOfferDetailWhenMainOfferExists() {
         // given
-        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails();
+        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails(null);
         testEntityManager.persist(dummyOffer);
         testEntityManager.flush();
-        OffersDetail dummyOffersDetail = DummyFactory.givenDummyOfferDetail(dummyOffer);
+        OffersDetail dummyOffersDetail = DummyFactory.givenDummyOfferDetail(dummyOffer, null);
         testEntityManager.persist(dummyOffersDetail);
         testEntityManager.flush();
 
@@ -64,7 +62,7 @@ public class OfferDetailRepositoryTest {
     public void testSaveOfferDetailWhenIsMissingOfferDetailCode() {
 
         // given
-        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails();
+        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails(null);
         testEntityManager.persist(dummyOffer);
         testEntityManager.flush();
         OffersDetail dummyOffersDetail = DummyFactory.givenDummyOfferDetailWithoutCode(dummyOffer);
@@ -82,7 +80,7 @@ public class OfferDetailRepositoryTest {
     public void testSaveOfferDetailWhenIsMissingQuantity() {
 
         // given
-        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails();
+        Offer dummyOffer = DummyFactory.givenDummyValidOfferNoDetails(null);
         testEntityManager.persist(dummyOffer);
         testEntityManager.flush();
         OffersDetail dummyOffersDetail = DummyFactory.givenDummyValidOfferDetailNoQuantity(dummyOffer);

@@ -3,6 +3,7 @@ package com.merchant.store.offers.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merchant.store.offers.dto.OfferDetailResponseDto;
 import com.merchant.store.offers.dto.OffersDetailDto;
+import com.merchant.store.offers.exception.ResourceNotFoundException;
 import com.merchant.store.offers.repository.DummyFactory;
 import com.merchant.store.offers.service.adapter.OfferDetailServiceAdapter;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
@@ -66,7 +66,7 @@ public class OfferDetailControllerTest {
     @DisplayName("When offer detail or the main offer does not exists, then it returns not found error (404)")
     public void testGetWhenOfferOrDetailDoesNotExists() throws Exception {
         // given
-        given(offerDetailService.getOfferDetail(anyString(), anyString())).willThrow(new EntityNotFoundException("Resource not Found"));
+        given(offerDetailService.getOfferDetail(anyString(), anyString())).willThrow(new ResourceNotFoundException("Resource not Found"));
 
         // when-then
         mockMvc.perform(get(buildUrlWithIdVariable(OFFERS_PATH), OFFER_ID, OFFER_DETAIL_ID)
@@ -79,7 +79,7 @@ public class OfferDetailControllerTest {
     public void testPostWhenDetailIsValid() throws Exception {
         // given
         OffersDetailDto offersDetailDto = DummyFactory.givenDummyOfferDetailDto();
-        doNothing().when(offerDetailService).updateOfferDetail(anyString(), OFFER_DETAIL_ID.toString(), any(OffersDetailDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(anyString(), anyString(), any(OffersDetailDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", OFFER_ID, OFFER_DETAIL_ID)
@@ -93,7 +93,7 @@ public class OfferDetailControllerTest {
     public void testPostWhenDetailQuantityIsNotValid() throws Exception {
         // given
         OffersDetailDto offersDetailUpdateRequestDto = DummyFactory.givenDummyInvalidQuantityOfferDetailDto();
-        doNothing().when(offerDetailService).updateOfferDetail(anyString(), OFFER_DETAIL_ID.toString(), any(OffersDetailDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(anyString(), anyString(), any(OffersDetailDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", OFFER_ID, OFFER_DETAIL_ID)
@@ -107,7 +107,7 @@ public class OfferDetailControllerTest {
     public void testPostWhenCodeIsNotValid() throws Exception {
         // given
         OffersDetailDto offersDetailUpdateRequestDto = DummyFactory.givenDummyInvalidCodeOfferDetailDto();
-        doNothing().when(offerDetailService).updateOfferDetail(anyString(), OFFER_DETAIL_ID.toString(), any(OffersDetailDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(anyString(), anyString(), any(OffersDetailDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", OFFER_ID, OFFER_DETAIL_ID)
@@ -121,7 +121,7 @@ public class OfferDetailControllerTest {
     public void testPostWhenDescriptionIsEmpty() throws Exception {
         // given
         OffersDetailDto offersDetailUpdateRequestDto = DummyFactory.givenDummyInvalidDescriptionOfferDetailDto();
-        doNothing().when(offerDetailService).updateOfferDetail(anyString(), OFFER_DETAIL_ID.toString(), any(OffersDetailDto.class));
+        doNothing().when(offerDetailService).updateOfferDetail(anyString(), anyString(), any(OffersDetailDto.class));
 
         // when-then
         mockMvc.perform(post(OFFERS_PATH + "/{offerID}/details", OFFER_ID, OFFER_DETAIL_ID)

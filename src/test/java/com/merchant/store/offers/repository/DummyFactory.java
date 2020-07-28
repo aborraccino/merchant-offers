@@ -12,8 +12,9 @@ import java.util.UUID;
 
 public final class DummyFactory {
 
-    public static Offer givenDummyValidOfferNoDetails() {
+    public static Offer givenDummyValidOfferNoDetails(UUID id) {
         Offer offer = new Offer();
+        offer.setOfferId(id);
         offer.setCurrency(CurrencyEnum.EUR);
         offer.setDescription("offer description");
         offer.setOfferCode("offer code");
@@ -23,12 +24,13 @@ public final class DummyFactory {
         return offer;
     }
 
-    public static Offer givenDummyOfferValidWithOneDetail() {
+    public static Offer givenDummyOfferValidWithOneDetail(UUID offerId, UUID offerDetailId) {
         OffersDetail offersDetail = new OffersDetail();
+        offersDetail.setOfferDetailId(offerId);
         offersDetail.setOfferDetailCode("offer detail code");
         offersDetail.setOfferDetailDescription("offer detail description");
         offersDetail.setQuantity(10);
-        Offer offer = DummyFactory.givenDummyValidOfferNoDetails();
+        Offer offer = DummyFactory.givenDummyValidOfferNoDetails(offerDetailId);
         offersDetail.setOffer(offer);
         offer.setOffersDetailList(Collections.singletonList(offersDetail));
         return offer;
@@ -36,6 +38,7 @@ public final class DummyFactory {
 
     public static Offer givenDummyInvalidOfferValidWithoutCurrency() {
         Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
         offer.setCurrency(null);
         LocalDateTime now = LocalDateTime.now();
         offer.setOfferStartDate(now);
@@ -47,6 +50,7 @@ public final class DummyFactory {
 
     public static Offer givenDummyInvalidOfferValidWithoutPrice() {
         Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
         offer.setCurrency(CurrencyEnum.EUR);
         LocalDateTime now = LocalDateTime.now();
         offer.setOfferStartDate(now);
@@ -58,6 +62,7 @@ public final class DummyFactory {
 
     public static Offer givenDummyInvalidOfferValidWithoutCode() {
         Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
         offer.setCurrency(CurrencyEnum.EUR);
         LocalDateTime now = LocalDateTime.now();
         offer.setOfferStartDate(now);
@@ -69,6 +74,7 @@ public final class DummyFactory {
 
     public static Offer givenDummyInvalidOfferValidWithoutStartDate() {
         Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
         offer.setCurrency(null);
         offer.setDescription("a special offer!");
         offer.setOfferCode("12345");
@@ -78,6 +84,7 @@ public final class DummyFactory {
 
     public static Offer givenDummyValidOfferNoExpirationNorDetails() {
         Offer offer = new Offer();
+        offer.setOfferId(UUID.randomUUID());
         offer.setCurrency(CurrencyEnum.USD);
         offer.setDescription("a special offer!");
         offer.setOfferCode("12345");
@@ -98,8 +105,9 @@ public final class DummyFactory {
         return offer;
     }
 
-    public static OffersDetail givenDummyOfferDetail(Offer dummyOffer) {
+    public static OffersDetail givenDummyOfferDetail(Offer dummyOffer, UUID id) {
         OffersDetail offersDetail = new OffersDetail();
+        offersDetail.setOfferDetailId(id);
         offersDetail.setOffer(dummyOffer);
         offersDetail.setQuantity(5);
         offersDetail.setOfferDetailDescription("description");
@@ -109,6 +117,7 @@ public final class DummyFactory {
 
     public static OffersDetail givenDummyOfferDetailNoMainOffer() {
         OffersDetail offersDetail = new OffersDetail();
+        offersDetail.setOfferDetailId(UUID.randomUUID());
         offersDetail.setQuantity(5);
         offersDetail.setOfferDetailDescription("description");
         offersDetail.setOfferDetailCode("offer detail code");
@@ -117,6 +126,7 @@ public final class DummyFactory {
 
     public static OffersDetail givenDummyOfferDetailWithoutCode(Offer dummyOffer) {
         OffersDetail offersDetail = new OffersDetail();
+        offersDetail.setOfferDetailId(UUID.randomUUID());
         offersDetail.setOffer(dummyOffer);
         offersDetail.setQuantity(5);
         offersDetail.setOfferDetailDescription("description");
@@ -126,6 +136,7 @@ public final class DummyFactory {
 
     public static OffersDetail givenDummyValidOfferDetailNoQuantity(Offer dummyOffer) {
         OffersDetail offersDetail = new OffersDetail();
+        offersDetail.setOfferDetailId(UUID.randomUUID());
         offersDetail.setOffer(dummyOffer);
         offersDetail.setQuantity(null);
         offersDetail.setOfferDetailDescription("description");
